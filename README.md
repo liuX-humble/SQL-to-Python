@@ -5,7 +5,7 @@ Quick reference for translating SQL queries to Pandas operations.
 
 ## Live Preview
 
-[View Guide](https://htmlpreview.github.io/?https://raw.githubusercontent.com/YOUR-USERNAME/REPO-NAME/main/sql-to-python.html)
+[View Guide](https://htmlpreview.github.io/?https://raw.githubusercontent.com/liuX-humble/SQL-to-Python/main/sql-to-python.html)
 
 ## Contents
 
