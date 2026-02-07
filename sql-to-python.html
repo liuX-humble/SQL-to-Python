@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL to Python Quickstart Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .intro p {
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            font-size: 0.95em;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            vertical-align: top;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .operation {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin: 5px 0;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            color: #e74c3c;
+            font-size: 0.9em;
+        }
+        
+        .sql-keyword { color: #66d9ef; }
+        .sql-string { color: #a6e22e; }
+        .sql-function { color: #fd971f; }
+        
+        .py-keyword { color: #ff79c6; }
+        .py-string { color: #f1fa8c; }
+        .py-method { color: #8be9fd; }
+        
+        .note {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        @media print {
+            body { padding: 0; }
+            .intro { page-break-inside: avoid; }
+            tr { page-break-inside: avoid; }
+        }
+        
+        @media (max-width: 768px) {
+            table { font-size: 0.85em; }
+            pre { font-size: 0.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SQL to Python Quickstart Guide</h1>
+        <p class="subtitle">Translate your SQL queries to Pandas operations</p>
+        
+        <div class="intro">
+            <h2>About This Guide</h2>
+            <p>This guide helps SQL users transition to Python's Pandas library. Each row shows equivalent operations: SQL query on the left, Pandas code on the right.</p>
+            <p><strong>Assumptions:</strong> You have a DataFrame called <code>df</code> (equivalent to SQL table). Pandas is imported as <code>pd</code>.</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Operation</th>
+                    <th style="width: 37.5%;">SQL</th>
+                    <th style="width: 37.5%;">Python (Pandas)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="operation">Filtering rows</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> table
+<span class="sql-keyword">WHERE</span> column = <span class="sql-string">'value'</span></pre>
+                    </td>
+                    <td>
+                        <pre>df[df[<span class="py-string">'column'</span>] == <span class="py-string">'value'</span>]</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Sorting data</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> table
+<span class="sql-keyword">ORDER BY</span> column <span class="sql-keyword">ASC</span></pre>
+                    </td>
+                    <td>
+                        <pre>df.sort_values(by=<span class="py-string">'column'</span>, ascending=<span class="py-keyword">True</span>)</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Removing duplicates</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT DISTINCT</span> col1, col2
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df.drop_duplicates(subset=[<span class="py-string">'col1'</span>, <span class="py-string">'col2'</span>])</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Filling missing values</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">COALESCE</span>(col, <span class="sql-string">'xxx'</span>)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].fillna(<span class="py-string">'xxx'</span>)</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Changing data types</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">CAST</span>(col <span class="sql-keyword">AS INTEGER</span>)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].astype(<span class="py-method">int</span>)</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Renaming columns</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> col <span class="sql-keyword">AS</span> new_col
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df.rename(columns={<span class="py-string">'col'</span>: <span class="py-string">'new_col'</span>})</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Summing values</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">SUM</span>(column)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].<span class="py-method">sum</span>()</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Calculating average</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">AVG</span>(column)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].<span class="py-method">mean</span>()</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Finding minimum / maximum</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">MIN</span>(column)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].<span class="py-method">min</span>()
+df[<span class="py-string">'column'</span>].<span class="py-method">max</span>()</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Counting rows</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">COUNT</span>(column)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].<span class="py-method">count</span>()</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Calculating percentiles</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> <span class="sql-function">PERCENTILE_CONT</span>(<span class="sql-string">0.5</span>)
+<span class="sql-keyword">WITHIN GROUP</span> (<span class="sql-keyword">ORDER BY</span> col)
+<span class="sql-keyword">FROM</span> table</pre>
+                    </td>
+                    <td>
+                        <pre>df[<span class="py-string">'column'</span>].<span class="py-method">quantile</span>(<span class="sql-string">0.5</span>)</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Aggregating by groups</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> group_column, <span class="sql-function">AVG</span>(col)
+<span class="sql-keyword">FROM</span> table
+<span class="sql-keyword">GROUP BY</span> group_column</pre>
+                    </td>
+                    <td>
+                        <pre>df.groupby(<span class="py-string">'group_column'</span>)[<span class="py-string">'col'</span>].<span class="py-method">mean</span>()</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Merging datasets</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> table1
+<span class="sql-keyword">JOIN</span> table2
+<span class="sql-keyword">ON</span> table1.key = table2.key</pre>
+                    </td>
+                    <td>
+                        <pre>pd.merge(table1, table2, on=<span class="py-string">'key'</span>)</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="operation">Appending datasets</td>
+                    <td>
+                        <pre><span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> table1
+<span class="sql-keyword">UNION ALL</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> table2</pre>
+                    </td>
+                    <td>
+                        <pre>pd.concat([table1, table2])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>Note:</strong> In Pandas, use <code>df['column']</code> (with quotes) to select a column. Without quotes, Python looks for a variable named column.
+        </div>
+
+        <div class="tip">
+            <strong>Tip:</strong> Most SQL aggregate functions (SUM, AVG, MIN, MAX, COUNT) have direct Pandas equivalents as DataFrame methods: <code>.sum()</code>, <code>.mean()</code>, <code>.min()</code>, <code>.max()</code>, <code>.count()</code>.
+        </div>
+    </div>
+</body>
+</html>
